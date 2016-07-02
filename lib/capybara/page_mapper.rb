@@ -1,3 +1,4 @@
+require 'ostruct'
 require 'capybara'
 require 'capybara/dsl'
 require 'capybara/page_mapper/version'
