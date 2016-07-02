@@ -31,4 +31,8 @@ class Capybara::PageMapper::BaseTest < Minitest::Test
   def test_button
     refute_nil base.log_in_button
   end
+
+  def test_valid
+    assert base.valid?
+  end
 end

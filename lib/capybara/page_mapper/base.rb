@@ -9,6 +9,10 @@ module Capybara
         @page_values = {}
       end
 
+      def valid?
+        @page_nodes.map { |n| !!n }.uniq.all?
+      end
+
       protected
 
       def self.define_field(name, xpath)
