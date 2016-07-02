@@ -13,16 +13,6 @@ module Capybara
         @page_nodes.map { |n| !!n }.uniq.all?
       end
 
-      protected
-
-      def self.define_input(name, xpath)
-        @@node_definitions[name.to_sym] = xpath
-      end
-
-      def self.define_button(name, xpath)
-        define_input(name, xpath)
-      end
-
       def method_missing(method_sym, *arguments, &block)
         if /(?<element_input>.*)_input$/ =~ method_sym && @@node_definitions[element_input.to_sym]
           define_input(element_input)
@@ -41,6 +31,22 @@ module Capybara
         end
       end
 
+      def respond_to?(method_sym, include_private = false)
+        /(.*)_input$/ =~ method_sym || /(.*)_button$/ =~ method_sym || /(.*)=$/ =~ method_sym
+        return true if @@node_definitions[($1 || method_sym).to_sym]
+        super
+      end
+
+      protected
+
+      def self.define_input(name, xpath)
+        @@node_definitions[name.to_sym] = xpath
+      end
+
+      def self.define_button(name, xpath)
+        define_input(name, xpath)
+      end
+
       private
 
       def define_input(key_name)
@@ -54,6 +60,7 @@ module Capybara
       def define_input_setter(key_name)
         instance_eval <<-RUBY
           def #{key_name}=(value)
+            self.#{key_name}_input.set(value) if self.#{key_name}_input.respond_to?(:set)
             @page_values[:#{key_name}]=value
           end
         RUBY

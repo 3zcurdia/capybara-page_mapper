@@ -9,17 +9,21 @@ end
 class Capybara::PageMapper::BaseTest < Minitest::Test
   def base
     @base ||= DummyMock.new
-    @base.email = 'test@example.org'
-    @base.password = 'secret'
-    @base
   end
 
   def setup
     base.visit '/'
   end
 
+  def test_respond_to
+    assert base.respond_to?(:email)
+    assert base.respond_to?(:email=)
+    assert base.respond_to?(:email_input)
+    refute base.respond_to?(:name)
+  end
+
   def test_attribues
-    assert_equal 'secret', base.password
+    base.email = 'test@example.org'
     assert_equal 'test@example.org', base.email
   end
 

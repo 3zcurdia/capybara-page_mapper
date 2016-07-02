@@ -21,7 +21,27 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Inherit from ```Capybara::PageMapper::Base``` and define the input fields as the following example
+
+```ruby
+class LoginPage < Capybara::PageMapper::Base
+  define_input :email, '//*[@id="user_email"]'
+  define_input :password, '//*[@id="user_password"]'
+  define_button :log_in, '//*[@id="log_in"]'
+end
+```
+Once you have define your input you will have access to the getters setters
+
+```ruby
+login_page = LoginPage.new
+login_page.email = "test@example.org"
+login_page.email
+# => "test@example.org"
+login_page.email_input
+# => Capybara::Node
+login_page.log_in_button.click if login_page.valid?
+```
+
 
 ## Contributing
 
