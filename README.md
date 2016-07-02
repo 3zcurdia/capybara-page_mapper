@@ -1,5 +1,6 @@
 # Capybara PageMapper
 [![Build Status](https://travis-ci.org/3zcurdia/capybara-page_mapper.svg?branch=master)](https://travis-ci.org/3zcurdia/capybara-page_mapper)
+[![Gem Version](https://badge.fury.io/rb/capybara-page_mapper.svg)](https://badge.fury.io/rb/capybara-page_mapper)
 
 Simple object mapper for page objects with capybara
 
