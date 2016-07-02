@@ -9,8 +9,8 @@ Gem::Specification.new do |spec|
   spec.authors       = ["Luis Ezcurdia"]
   spec.email         = ["ing.ezcurdia@gmail.com"]
 
-  spec.summary       = %q{Page objects DSL}
-  spec.description   = %q{Page objects DSL for capybara}
+  spec.summary       = %q{Object mapper DSL for capybara}
+  spec.description   = %q{Simple object mapper for page objects with capybara}
   spec.homepage      = "https://github.com/3zcurdia/capybara-page_mapper"
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }

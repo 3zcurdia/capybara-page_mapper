@@ -1,7 +1,7 @@
 # Capybara PageMapper
 [![Build Status](https://travis-ci.org/3zcurdia/capybara-page_mapper.svg?branch=master)](https://travis-ci.org/3zcurdia/capybara-page_mapper)
 
-Page objects DSL for capybara
+Simple object mapper for page objects with capybara
 
 ## Installation
 
