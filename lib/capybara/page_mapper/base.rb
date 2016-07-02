@@ -15,26 +15,26 @@ module Capybara
 
       protected
 
-      def self.define_field(name, xpath)
+      def self.define_input(name, xpath)
         @@node_definitions[name.to_sym] = xpath
       end
 
       def self.define_button(name, xpath)
-        define_field(name, xpath)
+        define_input(name, xpath)
       end
 
       def method_missing(method_sym, *arguments, &block)
-        if /(?<element_field>.*)_field$/ =~ method_sym && @@node_definitions[element_field.to_sym]
-          define_field(element_field)
+        if /(?<element_input>.*)_input$/ =~ method_sym && @@node_definitions[element_input.to_sym]
+          define_input(element_input)
           send(method_sym)
         elsif /(?<element_button>.*)_button$/ =~ method_sym && @@node_definitions[element_button.to_sym]
           define_button(element_button)
           send(method_sym)
         elsif /(?<element_setter>.*)=$/ =~ method_sym && @@node_definitions[element_setter.to_sym]
-          define_field_setter(element_setter)
+          define_input_setter(element_setter)
           send(method_sym, arguments.first)
         elsif @@node_definitions[method_sym.to_sym]
-          define_field_getter(method_sym)
+          define_input_getter(method_sym)
           send(method_sym)
         else
           super
@@ -43,15 +43,15 @@ module Capybara
 
       private
 
-      def define_field(key_name)
+      def define_input(key_name)
         instance_eval <<-RUBY
-          def #{key_name}_field
+          def #{key_name}_input
             @page_nodes[:#{key_name}] ||= page.find(:xpath, @@node_definitions[:#{key_name}])
           end
         RUBY
       end
 
-      def define_field_setter(key_name)
+      def define_input_setter(key_name)
         instance_eval <<-RUBY
           def #{key_name}=(value)
             @page_values[:#{key_name}]=value
@@ -59,7 +59,7 @@ module Capybara
         RUBY
       end
 
-      def define_field_getter(key_name)
+      def define_input_getter(key_name)
         instance_eval <<-RUBY
           def #{key_name}
             @page_values[:#{key_name}]

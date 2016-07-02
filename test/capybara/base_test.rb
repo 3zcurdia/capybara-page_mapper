@@ -1,8 +1,8 @@
 require 'test_helper'
 
 class DummyMock < Capybara::PageMapper::Base
-  define_field :email, '//*[@id="user_email"]'
-  define_field :password, '//*[@id="user_password"]'
+  define_input :email, '//*[@id="user_email"]'
+  define_input :password, '//*[@id="user_password"]'
   define_button :log_in, '//*[@id="log_in"]'
 end
 
@@ -23,9 +23,9 @@ class Capybara::PageMapper::BaseTest < Minitest::Test
     assert_equal 'test@example.org', base.email
   end
 
-  def test_fields
-    refute_nil base.email_field
-    refute_nil base.password_field
+  def test_inputs
+    refute_nil base.email_input
+    refute_nil base.password_input
   end
 
   def test_button
