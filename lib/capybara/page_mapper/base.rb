@@ -15,6 +15,10 @@ module Capybara
         @@node_definitions[name.to_sym] = xpath
       end
 
+      def self.define_button(name, xpath)
+        define_field(name, xpath)
+      end
+
       def method_missing(method_sym, *arguments, &block)
         if /(?<element_field>.*)_field$/ =~ method_sym && @@node_definitions[element_field.to_sym]
           define_field(element_field)
@@ -59,10 +63,10 @@ module Capybara
         RUBY
       end
 
-      def define_button(key_name, xpath)
+      def define_button(key_name)
         instance_eval <<-RUBY
           def #{key_name}_button
-            @#{key_name}_button ||= page.find(:xpath, xpath)
+            @#{key_name}_button ||= page.find(:xpath, @@node_definitions[:#{key_name}])
           end
         RUBY
       end

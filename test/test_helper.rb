@@ -3,10 +3,11 @@ require 'capybara/page_mapper'
 require 'capybara/poltergeist'
 
 require 'minitest/autorun'
+require 'support/test_app'
 
 Capybara.configure do |config|
-  config.run_server = false
+  config.app = TestApp
   config.current_driver = :poltergeist
-  config.app = "fake app"
-  config.app_host = "https://google.com/"
+  # config.run_server = false
+  # config.app_host = "https://google.com/"
 end
