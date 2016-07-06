@@ -10,7 +10,9 @@ module Capybara
       end
 
       def valid?
-        @page_nodes.map { |n| !!n }.uniq.all?
+        @page_nodes.map do |node, _|
+          !!(send("#{node}_input") || send("#{node}_button"))
+        end.uniq.all?
       end
 
       def method_missing(method_sym, *arguments, &block)
