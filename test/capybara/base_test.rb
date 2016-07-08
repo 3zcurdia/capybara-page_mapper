@@ -3,6 +3,7 @@ require 'test_helper'
 class DummyMock < Capybara::PageMapper::Base
   define_input :email, '//*[@id="user_email"]'
   define_input :password, '//*[@id="user_password"]'
+  define_select :marital_status, '//*[@id="user_marital_status"]'
   define_button :log_in, '//*[@id="log_in"]'
 end
 
@@ -27,9 +28,15 @@ class Capybara::PageMapper::BaseTest < Minitest::Test
     assert_equal 'test@example.org', base.email
   end
 
-  def test_inputs
+  def test_input
     refute_nil base.email_input
     refute_nil base.password_input
+  end
+
+  def test_select
+    base.marital_status_select('Single')
+    refute_nil base.marital_status_input
+    assert_equal 'single', base.marital_status
   end
 
   def test_button

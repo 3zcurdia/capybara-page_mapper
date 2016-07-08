@@ -20,7 +20,13 @@ class TestApp
     <body>
     <form>
       <input type="text" name="name" id="user_email"/>
-      <input type="text" name="meh" id="user_password"/>
+      <input type="text" name="password" id="user_password"/>
+      <select name="maritial_status" id="user_marital_status">
+        <option value="single">Single</option>
+        <option value="married">Married</option>
+        <option value="divorced">Divorced</option>
+        <option value="widowed">Widowed</option>
+      </select>
       <input type="submit" value="Submit" id="log_in">
     </form>
     <body>
