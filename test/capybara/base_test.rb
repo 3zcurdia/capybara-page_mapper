@@ -39,6 +39,11 @@ class Capybara::PageMapper::BaseTest < Minitest::Test
     assert_equal 'single', base.marital_status
   end
 
+  def test_select_by_value
+    base.marital_status_select_by_value 'married'
+    assert_equal 'married', base.marital_status
+  end
+
   def test_button
     refute_nil base.log_in_button
   end

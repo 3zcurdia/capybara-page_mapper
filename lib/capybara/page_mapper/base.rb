@@ -21,6 +21,9 @@ module Capybara
         elsif /(?<element_select>.*)_select$/ =~ method_sym && @@node_definitions[element_select.to_sym] && @@node_definitions[element_select.to_sym][:type] == :select
           define_select(element_select)
           send(method_sym, arguments.first)
+        elsif /(?<element_select_value>.*)_select_by_value$/ =~ method_sym && @@node_definitions[element_select_value.to_sym] && @@node_definitions[element_select_value.to_sym][:type] == :select
+          define_select_by_value(element_select_value)
+          send(method_sym, arguments.first)
         elsif /(?<element_button>.*)_button$/ =~ method_sym && @@node_definitions[element_button.to_sym] && @@node_definitions[element_button.to_sym][:type] == :button
           define_button(element_button)
           send(method_sym)
@@ -36,7 +39,7 @@ module Capybara
       end
 
       def respond_to?(method_sym, include_private = false)
-        /(.*)_input$/ =~ method_sym || /(.*)_select$/ =~ method_sym || /(.*)_button$/ =~ method_sym || /(.*)=$/ =~ method_sym
+        /(.*)_input$/ =~ method_sym || /(.*)_select$/ =~ method_sym || /(.*)_select_by_value$/ =~ method_sym || /(.*)_button$/ =~ method_sym || /(.*)=$/ =~ method_sym
         return true if @@node_definitions[($1 || method_sym).to_sym]
         super
       end
@@ -69,6 +72,14 @@ module Capybara
         instance_eval <<-RUBY
           def #{key_name}_select(option)
             self.#{key_name}_input.select(option) if self.#{key_name}_input.respond_to?(:select)
+          end
+        RUBY
+      end
+
+      def define_select_by_value(key_name)
+        instance_eval <<-RUBY
+          def #{key_name}_select_by_value(value)
+            self.#{key_name}_input.find("option[value='"+value+"']").select_option if self.#{key_name}_input.respond_to?(:find)
           end
         RUBY
       end
