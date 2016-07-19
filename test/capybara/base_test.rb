@@ -7,6 +7,12 @@ class DummyMock < Capybara::PageMapper::Base
   define_button :log_in, '//*[@id="log_in"]'
 end
 
+class GroupMock < Capybara::PageMapper::Base
+  define_input :name, '//*[@id="group_name"]'
+  define_input :password, '//*[@id="group_password"]'
+  define_input :email, '//*[@id="group_user_email"]'
+end
+
 class Capybara::PageMapper::BaseTest < Minitest::Test
   def base
     @base ||= DummyMock.new
