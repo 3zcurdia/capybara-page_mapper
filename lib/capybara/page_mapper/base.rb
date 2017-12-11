@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Capybara
   module PageMapper
     class Base
@@ -40,7 +42,7 @@ module Capybara
 
       def respond_to?(method_sym, include_private = false)
         /(.*)_input$/ =~ method_sym || /(.*)_select$/ =~ method_sym || /(.*)_select_by_value$/ =~ method_sym || /(.*)_button$/ =~ method_sym || /(.*)=$/ =~ method_sym
-        return true if self.class.node_definitions[($1 || method_sym).to_sym]
+        return true if self.class.node_definitions[(Regexp.last_match(1) || method_sym).to_sym]
         super
       end
 

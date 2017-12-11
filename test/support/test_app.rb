@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 require 'rack'
 require 'rack/server'
 
 class TestApp
-  def self.call(env)
-    self.new.response
+  def self.call(_env)
+    new.response
   end
 
   def response
