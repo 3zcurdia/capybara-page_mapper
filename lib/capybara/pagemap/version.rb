@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Capybara
-  module PageMapper
-    VERSION = '0.1.2'
+  module Pagemap
+    VERSION = '0.1.3'
   end
 end

@@ -3,11 +3,11 @@
 require 'ostruct'
 require 'capybara'
 require 'capybara/dsl'
-require 'capybara/page_mapper/version'
-require 'capybara/page_mapper/base'
+require 'capybara/pagemap/version'
+require 'capybara/pagemap/base'
 
 module Capybara
-  module PageMapper
+  module Pagemap
     # include Base
     #
     # def page_nodes

@@ -3,17 +3,17 @@
 
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'capybara/page_mapper/version'
+require 'capybara/pagemap/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = 'capybara-page_mapper'
-  spec.version       = Capybara::PageMapper::VERSION
+  spec.name          = 'capybara-pagemap'
+  spec.version       = Capybara::Pagemap::VERSION
   spec.authors       = ['Luis Ezcurdia']
   spec.email         = ['ing.ezcurdia@gmail.com']
   spec.license       = 'MIT'
   spec.summary       = 'Object mapper DSL for capybara'
   spec.description   = 'Simple object mapper for page objects with capybara'
-  spec.homepage      = 'https://github.com/3zcurdia/capybara-page_mapper'
+  spec.homepage      = 'https://github.com/3zcurdia/capybara-pagemap'
 
   spec.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
   spec.bindir        = 'exe'

@@ -2,14 +2,14 @@
 
 require 'test_helper'
 
-class DummyMock < Capybara::PageMapper::Base
+class DummyMock < Capybara::Pagemap::Base
   define_input :email, '//*[@id="user_email"]'
   define_input :password, '//*[@id="user_password"]'
   define_select :marital_status, '//*[@id="user_marital_status"]'
   define_button :log_in, '//*[@id="log_in"]'
 end
 
-class Capybara::PageMapper::BaseTest < Minitest::Test
+class Capybara::Pagemap::BaseTest < Minitest::Test
   def base
     @base ||= DummyMock.new
   end

@@ -2,8 +2,8 @@
 
 require 'test_helper'
 
-class Capybara::PageMapperTest < Minitest::Test
+class Capybara::PagemapTest < Minitest::Test
   def test_that_it_has_a_version_number
-    refute_nil ::Capybara::PageMapper::VERSION
+    refute_nil ::Capybara::Pagemap::VERSION
   end
 end

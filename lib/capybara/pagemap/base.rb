@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Capybara
-  module PageMapper
+  module Pagemap
     class Base
       include Capybara::DSL
 

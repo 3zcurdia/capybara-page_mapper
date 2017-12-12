@@ -26,16 +26,16 @@ Metrics/LineLength:
 Style/ClassAndModuleChildren:
   Exclude:
     - 'test/capybara/base_test.rb'
-    - 'test/capybara/page_mapper_test.rb'
+    - 'test/capybara/pagemap_test.rb'
 
 # Offense count: 2
 Style/Documentation:
   Exclude:
     - 'test/**/*'
-    - 'lib/capybara/page_mapper.rb'
-    - 'lib/capybara/page_mapper/base.rb'
+    - 'lib/capybara/pagemap.rb'
+    - 'lib/capybara/pagemap/base.rb'
 
 # Offense count: 1
 Style/DoubleNegation:
   Exclude:
-    - 'lib/capybara/page_mapper/base.rb'
+    - 'lib/capybara/pagemap/base.rb'
