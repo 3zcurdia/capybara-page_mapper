@@ -8,5 +8,10 @@ require 'capybara/page_mapper/base'
 
 module Capybara
   module PageMapper
+    # include Base
+    #
+    # def page_nodes
+    #   @page_nodes ||= {}
+    # end
   end
 end

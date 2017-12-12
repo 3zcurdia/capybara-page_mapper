@@ -40,28 +40,69 @@ module Capybara
         end
       end
 
-      def respond_to?(method_sym, include_private = false)
-        /(.*)_input$/ =~ method_sym || /(.*)_select$/ =~ method_sym || /(.*)_select_by_value$/ =~ method_sym || /(.*)_button$/ =~ method_sym || /(.*)=$/ =~ method_sym
-        return true if self.class.node_definitions[(Regexp.last_match(1) || method_sym).to_sym]
-        super
+      def respond_to_missing?(method_name, include_private = false)
+        /(.*)_input$/ =~ method_name || /(.*)_select$/ =~ method_name || /(.*)_select_by_value$/ =~ method_name || /(.*)_button$/ =~ method_name || /(.*)=$/ =~ method_name
+        self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym] || super
       end
 
       def self.node_definitions
         @node_definitions ||= {}
       end
 
-      protected
+      def define_and_send_input!(method_name)
+        return false unless /(?<element_input>.*)_input$/ =~ method_name &&
+                            self.class.node_definitions[element_input.to_sym]
+        define_input(element_input)
+        send(method_name)
+      end
 
       def self.define_input(name, xpath, type = :input)
         node_definitions[name.to_sym] = { type: type, value: xpath }
+      end
+
+      def define_and_send_select!(method_name, selected_option)
+        return false unless /(?<element_select>.*)_select$/ =~ method_name &&
+                            self.class.node_definitions[element_select.to_sym] &&
+                            self.class.node_definitions[element_select.to_sym][:type] == :select
+        define_select(element_select)
+        send(method_name, selected_option)
+      end
+
+      def define_and_send_select_by_value!(method_name, value)
+        return false unless /(?<element_select_value>.*)_select_by_value$/ =~ method_name &&
+                            self.class.node_definitions[element_select_value.to_sym] &&
+                            self.class.node_definitions[element_select_value.to_sym][:type] == :select
+        define_select_by_value(element_select_value)
+        send(method_name, value)
       end
 
       def self.define_select(name, xpath)
         define_input(name, xpath, :select)
       end
 
+      def define_and_send_button!(method_name)
+        return false unless /(?<element_button>.*)_button$/ =~ method_name &&
+                            self.class.node_definitions[element_button.to_sym] &&
+                            self.class.node_definitions[element_button.to_sym][:type] == :button
+        define_button(element_button)
+        send(method_name)
+      end
+
       def self.define_button(name, xpath)
         define_input(name, xpath, :button)
+      end
+
+      def define_and_send_setter!(method_name, value)
+        return false unless /(?<element_setter>.*)=$/ =~ method_name &&
+                            self.class.node_definitions[element_setter.to_sym]
+        define_input_setter(element_setter)
+        send(method_name, value)
+      end
+
+      def define_and_send_getter!(method_name)
+        return false unless self.class.node_definitions[method_name.to_sym]
+        define_input_getter(method_name)
+        send(method_name)
       end
 
       private
