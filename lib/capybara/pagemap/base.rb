@@ -6,7 +6,7 @@ module Capybara
       include Capybara::DSL
 
       def initialize
-        @page_nodes = {}
+        @nodes = {}
       end
 
       def valid?
@@ -49,60 +49,16 @@ module Capybara
         @node_definitions ||= {}
       end
 
-      def define_and_send_input!(method_name)
-        return false unless /(?<element_input>.*)_input$/ =~ method_name &&
-                            self.class.node_definitions[element_input.to_sym]
-        define_input(element_input)
-        send(method_name)
-      end
-
       def self.define_input(name, xpath, type = :input)
         node_definitions[name.to_sym] = { type: type, value: xpath }
-      end
-
-      def define_and_send_select!(method_name, selected_option)
-        return false unless /(?<element_select>.*)_select$/ =~ method_name &&
-                            self.class.node_definitions[element_select.to_sym] &&
-                            self.class.node_definitions[element_select.to_sym][:type] == :select
-        define_select(element_select)
-        send(method_name, selected_option)
-      end
-
-      def define_and_send_select_by_value!(method_name, value)
-        return false unless /(?<element_select_value>.*)_select_by_value$/ =~ method_name &&
-                            self.class.node_definitions[element_select_value.to_sym] &&
-                            self.class.node_definitions[element_select_value.to_sym][:type] == :select
-        define_select_by_value(element_select_value)
-        send(method_name, value)
       end
 
       def self.define_select(name, xpath)
         define_input(name, xpath, :select)
       end
 
-      def define_and_send_button!(method_name)
-        return false unless /(?<element_button>.*)_button$/ =~ method_name &&
-                            self.class.node_definitions[element_button.to_sym] &&
-                            self.class.node_definitions[element_button.to_sym][:type] == :button
-        define_button(element_button)
-        send(method_name)
-      end
-
       def self.define_button(name, xpath)
         define_input(name, xpath, :button)
-      end
-
-      def define_and_send_setter!(method_name, value)
-        return false unless /(?<element_setter>.*)=$/ =~ method_name &&
-                            self.class.node_definitions[element_setter.to_sym]
-        define_input_setter(element_setter)
-        send(method_name, value)
-      end
-
-      def define_and_send_getter!(method_name)
-        return false unless self.class.node_definitions[method_name.to_sym]
-        define_input_getter(method_name)
-        send(method_name)
       end
 
       private
@@ -110,7 +66,7 @@ module Capybara
       def define_input(key_name)
         instance_eval <<-RUBY
           def #{key_name}_input
-            @page_nodes[:#{key_name}] ||= page.find(:xpath, self.class.node_definitions[:#{key_name}][:value])
+            @nodes[:#{key_name}] ||= page.find(:xpath, self.class.node_definitions[:#{key_name}][:value])
           end
         RUBY
       end
