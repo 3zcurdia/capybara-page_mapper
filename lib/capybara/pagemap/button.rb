@@ -4,12 +4,19 @@ module Capybara
   module Pagemap
     # Button build methods for clickable DOM elements
     module Button
+      # :nodoc
+      module ClassMethods
+        def define_button(name, xpath)
+          node_definitions[name] = { type: :button, value: xpath }
+        end
+      end
+
       def button_validator_for(node)
         !send("#{node}_button").nil?
       end
 
       def button_build_and_send(method_name, *_, &_block)
-        return unless /(?<key>.*)_button$/ =~ method_name && self.class.node_definitions[key.to_sym]  && self.class.node_definitions[key.to_sym][:type] == :button
+        return unless /(?<key>.*)_button$/ =~ method_name && self.class.node_definitions[key.to_sym] && self.class.node_definitions[key.to_sym][:type] == :button
         build_button(key.to_sym)
         send(method_name)
       end

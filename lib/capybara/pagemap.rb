@@ -17,15 +17,14 @@ module Capybara
 
     def self.included(base)
       base.extend(ClassMethods)
+      MODULES_ENABLED.each do |mod|
+        base.extend(Object.const_get("Capybara::Pagemap::#{mod.capitalize}::ClassMethods"))
+      end
     end
 
     module ClassMethods
       def node_definitions
         @node_definitions ||= {}
-      end
-
-      def define_input(name, xpath, type = :input)
-        node_definitions[name] = { type: type, value: xpath }
       end
     end
 
@@ -44,7 +43,7 @@ module Capybara
     end
 
     def respond_to_missing?(method_name, include_private = false)
-      self.class.node_definitions.map do |node, definition|
+      self.class.node_definitions.map do |_node, definition|
         MODULES_ENABLED.map do |type|
           next if definition[:type] != type
           send("#{type}_respond_to_missing?", method_name, include_private)

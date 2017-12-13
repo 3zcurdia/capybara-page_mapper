@@ -4,6 +4,13 @@ module Capybara
   module Pagemap
     # Input build methods for input selector
     module Input
+      # :nodoc:
+      module ClassMethods
+        def define_input(name, xpath, type = :input)
+          node_definitions[name] = { type: type, value: xpath }
+        end
+      end
+
       def input_validator_for(node)
         !send("#{node}_input").nil?
       end

@@ -2,20 +2,10 @@
 
 require 'test_helper'
 
-class PageMock
-  def find(*_)
-    true
-  end
-end
-
 class Dummy
   include Capybara::Pagemap
   define_input :email, '//*[@id="user_email"]'
   define_input :password, '//*[@id="user_password"]'
-
-  def nodes
-    @nodes ||= {}
-  end
 
   def page
     PageMock.new
