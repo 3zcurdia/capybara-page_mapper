@@ -1,8 +1,16 @@
-addons:
-    code_climate:
-        repo_token: fbc1b4e42fd655e51f857d3dbe8599174f83fbc448a531f3ec46cf8af4bd5ad2
+env:
+  global:
+    - CC_TEST_REPORTER_ID=a84280065b8cb316f57d2f99d2dcf057fcb8164c6972136346d445c9beed8ddb
 language: ruby
 rvm:
   - 2.4.2
   - 2.3.5
 before_install: gem install bundler -v 1.16.0
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+script:
+  - bundle exec rake test
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
