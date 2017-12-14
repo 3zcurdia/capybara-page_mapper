@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class DummyBtn
+class DummyButton
   include Capybara::Pagemap
   define_button :submit, '//*[@id="user_submit"]'
   define_button :cancel, '//*[@id="user_cancel"]'
@@ -12,9 +12,9 @@ class DummyBtn
   end
 end
 
-class Capybara::Pagemap::InputTest < Minitest::Test
+class Capybara::Pagemap::ButonTest < Minitest::Test
   def subject
-    @subject ||= DummyBtn.new
+    @subject ||= DummyButton.new
   end
 
   def test_respond_to

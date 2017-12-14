@@ -16,20 +16,27 @@ module Capybara
       end
 
       def select_method_missing(method_name, args, block)
-        select_build_and_send(method_name, args, block) ||
+        select_input_build_and_send(method_name, args, block) ||
+          select_opt_build_and_send(method_name, args, block) ||
           select_value_build_and_send(method_name, args, block) ||
           select_getter_build_and_send(method_name, args, block)
       end
 
-      def select_build_and_send(method_name, args, _block)
+      def select_input_build_and_send(method_name, _args, _block)
+        return unless /(?<key>.*)_input$/ =~ method_name && self.class.node_definitions[key.to_sym]
+        build_select_input(key)
+        send(method_name)
+      end
+
+      def select_opt_build_and_send(method_name, args, _block)
         return unless /(?<key>.*)_select$/ =~ method_name && self.class.node_definitions[key.to_sym] && self.class.node_definitions[key.to_sym][:type] == :select
-        define_select(key)
+        build_select_opt(key)
         send(method_name, args.first)
       end
 
       def select_value_build_and_send(method_name, args, _block)
         return unless /(?<key>.*)_select_by$/ =~ method_name && self.class.node_definitions[key.to_sym] && self.class.node_definitions[key.to_sym][:type] == :select
-        define_select_by(key)
+        build_select_by(key)
         send(method_name, args.first)
       end
 
@@ -40,23 +47,31 @@ module Capybara
       end
 
       def select_respond_to_missing?(method_name, _include_private = false)
-        /(.*)_select$/ =~ method_name || /(.*)_select_by$/ =~ method_name || self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
+        /(.*)_input$/ =~ method_name || /(.*)_select$/ =~ method_name || /(.*)_select_by$/ =~ method_name || self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
       end
 
       private
 
-      def build_select(key_name)
+      def build_select_input(key_name)
         instance_eval <<-RUBY
-          def #{key_name}_select
-            @#{key_name}_select ||= page.find(:xpath, self.class.node_definitions[:#{key_name}][:value])
+          def #{key_name}_input
+            @#{key_name}_input ||= page.find(:xpath, self.class.node_definitions[:#{key_name}][:value])
           end
         RUBY
       end
 
-      def define_select_by(key_name)
+      def build_select_opt(key_name)
+        instance_eval <<-RUBY
+          def #{key_name}_select(option)
+            @#{key_name}_input.select(option) if self.#{key_name}_input.respond_to?(:select)
+          end
+        RUBY
+      end
+
+      def build_select_by(key_name)
         instance_eval <<-RUBY
           def #{key_name}_select_by(value)
-            self.#{key_name}_select.find("option[value='"+value+"']").select_option if self.#{key_name}_input.respond_to?(:find)
+            self.#{key_name}_input.find("option[value='"+value+"']").select_option if self.#{key_name}_input.respond_to?(:find)
           end
         RUBY
       end
@@ -64,7 +79,7 @@ module Capybara
       def build_select_getter(key_name)
         instance_eval <<-RUBY
           def #{key_name}
-            self.#{key_name}_select.value
+            self.#{key_name}_input.value
           end
         RUBY
       end

@@ -37,8 +37,11 @@ module Capybara
     end
 
     def method_missing(method_name, *args, &block)
-      MODULES_ENABLED.map do |type|
-        return send("#{type}_method_missing", method_name, args, block) if respond_to?(method_name)
+      self.class.node_definitions.any? && self.class.node_definitions.each do |_, definition|
+        MODULES_ENABLED.each do |type|
+          next if definition[:type] != type
+          return send("#{type}_method_missing", method_name, args, block) if respond_to?(method_name)
+        end
       end
       super
     end
