@@ -47,7 +47,10 @@ module Capybara
       end
 
       def select_respond_to_missing?(method_name, _include_private = false)
-        /(.*)_input$/ =~ method_name || /(.*)_select$/ =~ method_name || /(.*)_select_by$/ =~ method_name || self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
+        /(.*)_input$/ =~ method_name ||
+          /(.*)_select$/ =~ method_name ||
+          /(.*)_select_by$/ =~ method_name ||
+          self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
       end
 
       private

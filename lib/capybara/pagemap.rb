@@ -22,6 +22,7 @@ module Capybara
       end
     end
 
+    # :nodoc:
     module ClassMethods
       def node_definitions
         @node_definitions ||= {}
