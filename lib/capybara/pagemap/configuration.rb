@@ -17,7 +17,7 @@ module Capybara
     class Configuration
       attr_accessor :enabled
       def initialize
-        @enabled = %i[input button]
+        @enabled = %i[input button select]
       end
     end
   end

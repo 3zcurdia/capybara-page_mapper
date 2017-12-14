@@ -4,13 +4,15 @@ require 'capybara/pagemap/version'
 require 'capybara/pagemap/configuration'
 require 'capybara/pagemap/input'
 require 'capybara/pagemap/button'
+require 'capybara/pagemap/select'
 
 module Capybara
   module Pagemap
     # Modules Available
     include Input
     include Button
-    MODULES_ENABLED = self.configuration.enabled.freeze
+    include Select
+    MODULES_ENABLED = configuration.enabled.freeze
 
     def self.included(base)
       base.extend(ClassMethods)

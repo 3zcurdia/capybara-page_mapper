@@ -17,8 +17,8 @@ module Capybara
 
       def input_method_missing(method_name, args, block)
         input_build_and_send(method_name, args, block) ||
-        setter_build_and_send(method_name, args, block) ||
-        getter_build_and_send(method_name, args, block)
+          input_setter_build_and_send(method_name, args, block) ||
+          input_getter_build_and_send(method_name, args, block)
       end
 
       def input_build_and_send(method_name, _, _block)
@@ -27,20 +27,20 @@ module Capybara
         send(method_name)
       end
 
-      def setter_build_and_send(method_name, args, _block)
+      def input_setter_build_and_send(method_name, args, _block)
         return unless /(?<key>.*)=$/ =~ method_name && self.class.node_definitions[key.to_sym]
         define_input_setter(key)
         send(method_name, args.first)
       end
 
-      def getter_build_and_send(method_name, _, _block)
+      def input_getter_build_and_send(method_name, _, _block)
         return unless self.class.node_definitions[method_name.to_sym]
         define_input_getter(method_name)
         send(method_name)
       end
 
       def input_respond_to_missing?(method_name, _include_private = false)
-        /(.*)_input$/ =~ method_name ||  /(.*)=$/ =~ method_name || self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
+        /(.*)_input$/ =~ method_name || /(.*)=$/ =~ method_name || self.class.node_definitions[(Regexp.last_match(1) || method_name).to_sym]
       end
 
       private
