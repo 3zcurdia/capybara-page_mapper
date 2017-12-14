@@ -2,7 +2,15 @@
 
 # :nodoc:
 class PageMock
+  # :nodoc:
+  class PageNodeMock
+    attr_reader :value
+    def set(value)
+      @value = value
+    end
+  end
+
   def find(*_)
-    true
+    PageNodeMock.new
   end
 end

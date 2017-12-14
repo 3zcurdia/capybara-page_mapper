@@ -87,22 +87,6 @@ module Capybara
         RUBY
       end
 
-      def define_input_setter(key_name)
-        instance_eval <<-RUBY
-          def #{key_name}=(value)
-            self.#{key_name}_input.set(value) if self.#{key_name}_input.respond_to?(:set)
-          end
-        RUBY
-      end
-
-      def define_input_getter(key_name)
-        instance_eval <<-RUBY
-          def #{key_name}
-            self.#{key_name}_input.value
-          end
-        RUBY
-      end
-
       def define_button(key_name)
         instance_eval <<-RUBY
           def #{key_name}_button

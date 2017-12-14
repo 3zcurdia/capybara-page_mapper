@@ -15,7 +15,7 @@ module Capybara
         !send("#{node}_button").nil?
       end
 
-      def button_build_and_send(method_name, *_, &_block)
+      def button_method_missing(method_name, *_, &_block)
         return unless /(?<key>.*)_button$/ =~ method_name && self.class.node_definitions[key.to_sym] && self.class.node_definitions[key.to_sym][:type] == :button
         build_button(key.to_sym)
         send(method_name)
