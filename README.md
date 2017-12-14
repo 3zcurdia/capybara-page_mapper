@@ -26,7 +26,8 @@ Or install it yourself as:
 Inherit from ```Capybara::Pagemap::Base``` and define the input fields as the following example
 
 ```ruby
-class LoginPage < Capybara::Pagemap::Base
+class LoginPage
+  include Capybara::Pagemap
   define_input :email, '//*[@id="user_email"]'
   define_input :password, '//*[@id="user_password"]'
   define_button :log_in, '//*[@id="log_in"]'

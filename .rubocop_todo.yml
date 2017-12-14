@@ -8,34 +8,10 @@
 
 # Offense count: 1
 Metrics/AbcSize:
-  Max: 59
-
-# Offense count: 2
-Metrics/CyclomaticComplexity:
-  Max: 15
+  Max: 20
 
 # Offense count: 8
 # Configuration parameters: AllowHeredoc, AllowURI, URISchemes, IgnoreCopDirectives, IgnoredPatterns.
 # URISchemes: http, https
 Metrics/LineLength:
-  Max: 212
-
-# Offense count: 2
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-# SupportedStyles: nested, compact
-Style/ClassAndModuleChildren:
-  Exclude:
-    - 'test/capybara/base_test.rb'
-    - 'test/capybara/pagemap_test.rb'
-
-# Offense count: 2
-Style/Documentation:
-  Exclude:
-    - 'test/**/*'
-    - 'lib/capybara/pagemap.rb'
-    - 'lib/capybara/pagemap/base.rb'
-
-# Offense count: 1
-Style/DoubleNegation:
-  Exclude:
-    - 'lib/capybara/pagemap/base.rb'
+  Max: 180
