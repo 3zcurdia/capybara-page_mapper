@@ -1,6 +1,7 @@
 # Capybara Pagemap
 [![Build Status](https://travis-ci.org/3zcurdia/capybara-pagemap.svg?branch=master)](https://travis-ci.org/3zcurdia/capybara-pagemap)
 [![Maintainability](https://api.codeclimate.com/v1/badges/19084f69bfee063ec218/maintainability)](https://codeclimate.com/github/3zcurdia/capybara-pagemap/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/19084f69bfee063ec218/test_coverage)](https://codeclimate.com/github/3zcurdia/capybara-pagemap/test_coverage)
 [![Gem Version](https://badge.fury.io/rb/capybara-pagemap.svg)](https://badge.fury.io/rb/capybara-pagemap)
 
 Simple object mapper for page objects with capybara
