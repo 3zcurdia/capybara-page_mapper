@@ -7,6 +7,7 @@ require 'capybara/pagemap/button'
 require 'capybara/pagemap/select'
 
 module Capybara
+  # Pagemap module extend functionality to clases to map capybara nodes
   module Pagemap
     # Modules Available
     include Input
@@ -28,7 +29,7 @@ module Capybara
     end
 
     def valid?
-      self.class.node_definitions.any? && self.class.node_definitions.map do |node, definition|
+      self.class.node_definitions.map do |node, definition|
         MODULES_ENABLED.map do |type|
           next if definition[:type] != type
           send("#{type}_validator_for", node)
@@ -37,7 +38,7 @@ module Capybara
     end
 
     def method_missing(method_name, *args, &block)
-      self.class.node_definitions.any? && self.class.node_definitions.each do |_, definition|
+      self.class.node_definitions.each_value do |definition|
         MODULES_ENABLED.each do |type|
           next if definition[:type] != type
           return send("#{type}_method_missing", method_name, args, block) if respond_to?(method_name)
