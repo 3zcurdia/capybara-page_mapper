@@ -42,7 +42,8 @@ module Capybara
       self.class.node_definitions.each_value do |definition|
         MODULES_ENABLED.each do |type|
           next if definition[:type] != type
-          return send("#{type}_method_missing", method_name, args, block) if respond_to?(method_name)
+          result = send("#{type}_method_missing", method_name, args, block) if respond_to?(method_name)
+          return result if result
         end
       end
       super
