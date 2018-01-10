@@ -12,7 +12,7 @@ module Capybara
       end
 
       def select_validator_for(node)
-        !send("#{node}_select").nil?
+        !send("#{node}_input").nil?
       end
 
       def select_method_missing(method_name, args, block)
